@@ -34,12 +34,19 @@ app.post("/register", async (req, res) => {
 
         // check if user already exist
         // Validate if user exist in our database
-        const oldUser = await User.findOne({email});
-
+        let oldUser = await User.findOne({email});
         if (oldUser) {
             return res.status(409).json({
                 status: 'error',
-                message: 'User Already Exist. Please Login'
+                message: 'This email address is already being used. Please Login or use another email address.'
+            });
+        }
+
+        oldUser = await User.findOne({username});
+        if (oldUser) {
+            return res.status(409).json({
+                status: 'error',
+                message: 'This username is already being used. Please Login or use another username.'
             });
         }
 
@@ -62,12 +69,10 @@ app.post("/register", async (req, res) => {
             }
         );
 
-        // return new user
-        res.status(201).json(user);
+        // return success
         return res.status(201).json({
             status: 'success',
-            message: 'User was created',
-            user: user,
+            message: 'The user account has been created.',
         });
 
     } catch (err) {
