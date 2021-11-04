@@ -117,7 +117,7 @@ app.post("/login", async (req, res) => {
 
         return res.status(400).json({
             status: 'error',
-            message: 'Invalid Credentials',
+            message: 'Wrong password or account doesn’t exist.',
         });
     } catch (err) {
         console.log(err);
